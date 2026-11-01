@@ -1,0 +1,5 @@
+#include <windows.h>
+
+#define IDI_EMUCOMPRESS 101
+
+IDI_EMUCOMPRESS ICON "emucompress_icon.ico"

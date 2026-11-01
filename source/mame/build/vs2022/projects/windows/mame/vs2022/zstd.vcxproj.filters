@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="16.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="3rdparty">
+      <UniqueIdentifier>{3E7DA5C5-2A4A-00D1-5363-EE783F8F355F}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="3rdparty\zstd">
+      <UniqueIdentifier>{1F210141-8BE1-7C77-541C-C6F4C09BC153}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="3rdparty\zstd\lib">
+      <UniqueIdentifier>{D2E40E31-3EFB-0CC7-8772-98E8F3C7DD4E}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="3rdparty\zstd\lib\common">
+      <UniqueIdentifier>{D7D3D9BD-C3F8-283E-EC43-0ECED8C7275C}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="3rdparty\zstd\lib\compress">
+      <UniqueIdentifier>{3AFDD59B-260D-826C-8FC6-E68A7BF57005}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="3rdparty\zstd\lib\decompress">
+      <UniqueIdentifier>{035708CE-EF11-F879-98C9-70C48463420A}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\..\..\..\..\3rdparty\zstd\lib\common\debug.c">
+      <Filter>3rdparty\zstd\lib\common</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\..\..\3rdparty\zstd\lib\common\entropy_common.c">
+      <Filter>3rdparty\zstd\lib\common</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\..\..\3rdparty\zstd\lib\common\error_private.c">
+      <Filter>3rdparty\zstd\lib\common</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\..\..\3rdparty\zstd\lib\common\fse_decompress.c">
+      <Filter>3rdparty\zstd\lib\common</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\..\..\3rdparty\zstd\lib\common\pool.c">
+      <Filter>3rdparty\zstd\lib\common</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\..\..\3rdparty\zstd\lib\common\threading.c">
+      <Filter>3rdparty\zstd\lib\common</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\..\..\3rdparty\zstd\lib\common\xxhash.c">
+      <Filter>3rdparty\zstd\lib\common</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\..\..\3rdparty\zstd\lib\common\zstd_common.c">
+      <Filter>3rdparty\zstd\lib\common</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\..\..\3rdparty\zstd\lib\compress\fse_compress.c">
+      <Filter>3rdparty\zstd\lib\compress</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\..\..\3rdparty\zstd\lib\compress\hist.c">
+      <Filter>3rdparty\zstd\lib\compress</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\..\..\3rdparty\zstd\lib\compress\huf_compress.c">
+      <Filter>3rdparty\zstd\lib\compress</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\..\..\3rdparty\zstd\lib\compress\zstd_compress.c">
+      <Filter>3rdparty\zstd\lib\compress</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\..\..\3rdparty\zstd\lib\compress\zstd_compress_literals.c">
+      <Filter>3rdparty\zstd\lib\compress</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\..\..\3rdparty\zstd\lib\compress\zstd_compress_sequences.c">
+      <Filter>3rdparty\zstd\lib\compress</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\..\..\3rdparty\zstd\lib\compress\zstd_compress_superblock.c">
+      <Filter>3rdparty\zstd\lib\compress</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\..\..\3rdparty\zstd\lib\compress\zstd_double_fast.c">
+      <Filter>3rdparty\zstd\lib\compress</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\..\..\3rdparty\zstd\lib\compress\zstd_fast.c">
+      <Filter>3rdparty\zstd\lib\compress</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\..\..\3rdparty\zstd\lib\compress\zstd_lazy.c">
+      <Filter>3rdparty\zstd\lib\compress</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\..\..\3rdparty\zstd\lib\compress\zstd_ldm.c">
+      <Filter>3rdparty\zstd\lib\compress</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\..\..\3rdparty\zstd\lib\compress\zstdmt_compress.c">
+      <Filter>3rdparty\zstd\lib\compress</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\..\..\3rdparty\zstd\lib\compress\zstd_opt.c">
+      <Filter>3rdparty\zstd\lib\compress</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\..\..\3rdparty\zstd\lib\compress\zstd_preSplit.c">
+      <Filter>3rdparty\zstd\lib\compress</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\..\..\3rdparty\zstd\lib\decompress\huf_decompress.c">
+      <Filter>3rdparty\zstd\lib\decompress</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\..\..\3rdparty\zstd\lib\decompress\zstd_ddict.c">
+      <Filter>3rdparty\zstd\lib\decompress</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\..\..\3rdparty\zstd\lib\decompress\zstd_decompress_block.c">
+      <Filter>3rdparty\zstd\lib\decompress</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\..\..\3rdparty\zstd\lib\decompress\zstd_decompress.c">
+      <Filter>3rdparty\zstd\lib\decompress</Filter>
+    </ClCompile>
+  </ItemGroup>
+</Project>

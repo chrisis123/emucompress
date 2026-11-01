@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="16.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="3rdparty">
+      <UniqueIdentifier>{3E7DA5C5-2A4A-00D1-5363-EE783F8F355F}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="3rdparty\residfp">
+      <UniqueIdentifier>{47BE02B7-33B7-2109-5CE9-068E48410115}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="3rdparty\residfp\resample">
+      <UniqueIdentifier>{1C580434-881A-38BE-D1CA-C64A3DCC109C}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="3rdparty\residfp\residfp">
+      <UniqueIdentifier>{50F87066-3C1D-C0E6-6568-A57651ECBE04}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\..\..\..\..\3rdparty\residfp\Dac.h">
+      <Filter>3rdparty\residfp</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\..\3rdparty\residfp\EnvelopeGenerator.h">
+      <Filter>3rdparty\residfp</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\..\3rdparty\residfp\ExternalFilter.h">
+      <Filter>3rdparty\residfp</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\..\3rdparty\residfp\Filter.h">
+      <Filter>3rdparty\residfp</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\..\3rdparty\residfp\Filter6581.h">
+      <Filter>3rdparty\residfp</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\..\3rdparty\residfp\Filter8580.h">
+      <Filter>3rdparty\residfp</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\..\3rdparty\residfp\FilterModelConfig.h">
+      <Filter>3rdparty\residfp</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\..\3rdparty\residfp\FilterModelConfig6581.h">
+      <Filter>3rdparty\residfp</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\..\3rdparty\residfp\FilterModelConfig8580.h">
+      <Filter>3rdparty\residfp</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\..\3rdparty\residfp\Integrator.h">
+      <Filter>3rdparty\residfp</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\..\3rdparty\residfp\Integrator6581.h">
+      <Filter>3rdparty\residfp</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\..\3rdparty\residfp\Integrator8580.h">
+      <Filter>3rdparty\residfp</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\..\3rdparty\residfp\OpAmp.h">
+      <Filter>3rdparty\residfp</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\..\3rdparty\residfp\SID.h">
+      <Filter>3rdparty\residfp</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\..\3rdparty\residfp\Spline.h">
+      <Filter>3rdparty\residfp</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\..\3rdparty\residfp\State.h">
+      <Filter>3rdparty\residfp</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\..\3rdparty\residfp\Voice.h">
+      <Filter>3rdparty\residfp</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\..\3rdparty\residfp\WaveformCalculator.h">
+      <Filter>3rdparty\residfp</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\..\3rdparty\residfp\WaveformGenerator.h">
+      <Filter>3rdparty\residfp</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\..\3rdparty\residfp\array.h">
+      <Filter>3rdparty\residfp</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\..\3rdparty\residfp\siddefs-fp.h">
+      <Filter>3rdparty\residfp</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\..\3rdparty\residfp\resample\Limiter.h">
+      <Filter>3rdparty\residfp\resample</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\..\3rdparty\residfp\resample\PassThrough.h">
+      <Filter>3rdparty\residfp\resample</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\..\3rdparty\residfp\resample\Resampler.h">
+      <Filter>3rdparty\residfp\resample</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\..\3rdparty\residfp\resample\SincResampler.h">
+      <Filter>3rdparty\residfp\resample</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\..\3rdparty\residfp\resample\TwoPassSincResampler.h">
+      <Filter>3rdparty\residfp\resample</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\..\3rdparty\residfp\resample\ZeroOrderResampler.h">
+      <Filter>3rdparty\residfp\resample</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\..\3rdparty\residfp\residfp\residfp.h">
+      <Filter>3rdparty\residfp\residfp</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\..\3rdparty\residfp\residfp\residfp_defs.h">
+      <Filter>3rdparty\residfp\residfp</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\..\3rdparty\residfp\residfp\sidversion.h">
+      <Filter>3rdparty\residfp\residfp</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\..\..\..\..\3rdparty\residfp\Dac.cpp">
+      <Filter>3rdparty\residfp</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\..\..\3rdparty\residfp\EnvelopeGenerator.cpp">
+      <Filter>3rdparty\residfp</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\..\..\3rdparty\residfp\ExternalFilter.cpp">
+      <Filter>3rdparty\residfp</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\..\..\3rdparty\residfp\Filter.cpp">
+      <Filter>3rdparty\residfp</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\..\..\3rdparty\residfp\Filter6581.cpp">
+      <Filter>3rdparty\residfp</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\..\..\3rdparty\residfp\Filter8580.cpp">
+      <Filter>3rdparty\residfp</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\..\..\3rdparty\residfp\FilterModelConfig.cpp">
+      <Filter>3rdparty\residfp</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\..\..\3rdparty\residfp\FilterModelConfig6581.cpp">
+      <Filter>3rdparty\residfp</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\..\..\3rdparty\residfp\FilterModelConfig8580.cpp">
+      <Filter>3rdparty\residfp</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\..\..\3rdparty\residfp\Integrator6581.cpp">
+      <Filter>3rdparty\residfp</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\..\..\3rdparty\residfp\Integrator8580.cpp">
+      <Filter>3rdparty\residfp</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\..\..\3rdparty\residfp\OpAmp.cpp">
+      <Filter>3rdparty\residfp</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\..\..\3rdparty\residfp\SID.cpp">
+      <Filter>3rdparty\residfp</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\..\..\3rdparty\residfp\Spline.cpp">
+      <Filter>3rdparty\residfp</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\..\..\3rdparty\residfp\State.cpp">
+      <Filter>3rdparty\residfp</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\..\..\3rdparty\residfp\WaveformCalculator.cpp">
+      <Filter>3rdparty\residfp</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\..\..\3rdparty\residfp\WaveformGenerator.cpp">
+      <Filter>3rdparty\residfp</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\..\..\3rdparty\residfp\version.cc">
+      <Filter>3rdparty\residfp</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\..\..\3rdparty\residfp\resample\SincResampler.cpp">
+      <Filter>3rdparty\residfp\resample</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\..\..\3rdparty\residfp\residfp\residfp.cpp">
+      <Filter>3rdparty\residfp\residfp</Filter>
+    </ClCompile>
+  </ItemGroup>
+</Project>

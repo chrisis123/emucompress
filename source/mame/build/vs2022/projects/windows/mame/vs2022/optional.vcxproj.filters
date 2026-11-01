@@ -1,0 +1,344 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="16.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="src">
+      <UniqueIdentifier>{2DAB880B-99B4-887C-2230-9F7C8E38947C}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\devices">
+      <UniqueIdentifier>{CC5D779A-3813-F08F-C107-EA662DBCE693}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\devices\cpu">
+      <UniqueIdentifier>{B08A7D9F-1C16-EB63-2527-6E5891314764}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\devices\cpu\i386">
+      <UniqueIdentifier>{36FBCA5E-228A-5428-CBA8-6823B71665CE}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\devices\sound">
+      <UniqueIdentifier>{F1002C76-5D17-2A0C-A68E-B52D12E4FA93}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\devices\video">
+      <UniqueIdentifier>{BFB65E76-2BCD-5C0C-7444-E82DE0992D94}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\devices\machine">
+      <UniqueIdentifier>{5D7C61C1-C9DD-3ECF-524B-8581BEAB758E}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\devices\imagedev">
+      <UniqueIdentifier>{2AC885D3-1657-0F9D-BF75-2398ABE31F43}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\..\..\..\..\src\devices\machine\keyboard.ipp">
+      <Filter>src\devices\machine</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\..\..\..\..\src\devices\cpu\i386\i386.h">
+      <Filter>src\devices\cpu\i386</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\..\src\devices\cpu\i386\athlon.h">
+      <Filter>src\devices\cpu\i386</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\..\src\devices\cpu\i386\cache.h">
+      <Filter>src\devices\cpu\i386</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\..\src\devices\cpu\i386\cycles.h">
+      <Filter>src\devices\cpu\i386</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\..\src\devices\cpu\i386\i386op16.hxx">
+      <Filter>src\devices\cpu\i386</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\..\src\devices\cpu\i386\i386op32.hxx">
+      <Filter>src\devices\cpu\i386</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\..\src\devices\cpu\i386\i386ops.h">
+      <Filter>src\devices\cpu\i386</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\..\src\devices\cpu\i386\i386ops.hxx">
+      <Filter>src\devices\cpu\i386</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\..\src\devices\cpu\i386\i386priv.h">
+      <Filter>src\devices\cpu\i386</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\..\src\devices\cpu\i386\i386segs.hxx">
+      <Filter>src\devices\cpu\i386</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\..\src\devices\cpu\i386\i486ops.hxx">
+      <Filter>src\devices\cpu\i386</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\..\src\devices\cpu\i386\pentops.hxx">
+      <Filter>src\devices\cpu\i386</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\..\src\devices\cpu\i386\x87ops.hxx">
+      <Filter>src\devices\cpu\i386</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\..\src\devices\cpu\i386\x87priv.h">
+      <Filter>src\devices\cpu\i386</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\..\src\devices\cpu\i386\cpuidmsrs.hxx">
+      <Filter>src\devices\cpu\i386</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\..\src\devices\sound\bbd.h">
+      <Filter>src\devices\sound</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\..\src\devices\sound\drivesound.h">
+      <Filter>src\devices\sound</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\..\src\devices\sound\flt_biquad.h">
+      <Filter>src\devices\sound</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\..\src\devices\sound\flt_vol.h">
+      <Filter>src\devices\sound</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\..\src\devices\sound\flt_rc.h">
+      <Filter>src\devices\sound</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\..\src\devices\sound\mixer.h">
+      <Filter>src\devices\sound</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\..\src\devices\sound\samples.h">
+      <Filter>src\devices\sound</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\..\src\devices\video\cgapal.h">
+      <Filter>src\devices\video</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\..\src\devices\video\poly.h">
+      <Filter>src\devices\video</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\..\src\devices\video\sprite.h">
+      <Filter>src\devices\video</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\..\src\devices\machine\bcreader.h">
+      <Filter>src\devices\machine</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\..\src\devices\machine\buffer.h">
+      <Filter>src\devices\machine</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\..\src\devices\machine\clock.h">
+      <Filter>src\devices\machine</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\..\src\devices\machine\keyboard.h">
+      <Filter>src\devices\machine</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\..\src\devices\machine\laserdsc.h">
+      <Filter>src\devices\machine</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\..\src\devices\machine\nvram.h">
+      <Filter>src\devices\machine</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\..\src\devices\machine\ram.h">
+      <Filter>src\devices\machine</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\..\src\devices\machine\legscsi.h">
+      <Filter>src\devices\machine</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\..\src\devices\machine\sdlc.h">
+      <Filter>src\devices\machine</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\..\src\devices\machine\terminal.h">
+      <Filter>src\devices\machine</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\..\src\devices\machine\timer.h">
+      <Filter>src\devices\machine</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\..\src\devices\imagedev\bitbngr.h">
+      <Filter>src\devices\imagedev</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\..\src\devices\imagedev\cartrom.h">
+      <Filter>src\devices\imagedev</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\..\src\devices\imagedev\cassette.h">
+      <Filter>src\devices\imagedev</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\..\src\devices\imagedev\cdromimg.h">
+      <Filter>src\devices\imagedev</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\..\src\devices\imagedev\diablo.h">
+      <Filter>src\devices\imagedev</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\..\src\devices\imagedev\flopdrv.h">
+      <Filter>src\devices\imagedev</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\..\src\devices\imagedev\floppy.h">
+      <Filter>src\devices\imagedev</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\..\src\devices\imagedev\harddriv.h">
+      <Filter>src\devices\imagedev</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\..\src\devices\imagedev\magtape.h">
+      <Filter>src\devices\imagedev</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\..\src\devices\imagedev\memcard.h">
+      <Filter>src\devices\imagedev</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\..\src\devices\imagedev\mfmhd.h">
+      <Filter>src\devices\imagedev</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\..\src\devices\imagedev\microdrv.h">
+      <Filter>src\devices\imagedev</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\..\src\devices\imagedev\midiin.h">
+      <Filter>src\devices\imagedev</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\..\src\devices\imagedev\midiout.h">
+      <Filter>src\devices\imagedev</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\..\src\devices\imagedev\papertape.h">
+      <Filter>src\devices\imagedev</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\..\src\devices\imagedev\picture.h">
+      <Filter>src\devices\imagedev</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\..\src\devices\imagedev\printer.h">
+      <Filter>src\devices\imagedev</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\..\src\devices\imagedev\simh_tape_image.h">
+      <Filter>src\devices\imagedev</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\..\src\devices\imagedev\snapquik.h">
+      <Filter>src\devices\imagedev</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\..\src\devices\imagedev\wafadrive.h">
+      <Filter>src\devices\imagedev</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\..\src\devices\imagedev\avivideo.h">
+      <Filter>src\devices\imagedev</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\..\src\devices\machine\netlist.h">
+      <Filter>src\devices\machine</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\..\..\..\..\src\devices\cpu\i386\i386.cpp">
+      <Filter>src\devices\cpu\i386</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\..\..\src\devices\cpu\i386\athlon.cpp">
+      <Filter>src\devices\cpu\i386</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\..\..\src\devices\sound\bbd.cpp">
+      <Filter>src\devices\sound</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\..\..\src\devices\sound\drivesound.cpp">
+      <Filter>src\devices\sound</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\..\..\src\devices\sound\flt_biquad.cpp">
+      <Filter>src\devices\sound</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\..\..\src\devices\sound\flt_vol.cpp">
+      <Filter>src\devices\sound</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\..\..\src\devices\sound\flt_rc.cpp">
+      <Filter>src\devices\sound</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\..\..\src\devices\sound\mixer.cpp">
+      <Filter>src\devices\sound</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\..\..\src\devices\sound\samples.cpp">
+      <Filter>src\devices\sound</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\..\..\src\devices\video\cgapal.cpp">
+      <Filter>src\devices\video</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\..\..\src\devices\video\sprite.cpp">
+      <Filter>src\devices\video</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\..\..\src\devices\machine\bcreader.cpp">
+      <Filter>src\devices\machine</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\..\..\src\devices\machine\buffer.cpp">
+      <Filter>src\devices\machine</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\..\..\src\devices\machine\clock.cpp">
+      <Filter>src\devices\machine</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\..\..\src\devices\machine\keyboard.cpp">
+      <Filter>src\devices\machine</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\..\..\src\devices\machine\laserdsc.cpp">
+      <Filter>src\devices\machine</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\..\..\src\devices\machine\nvram.cpp">
+      <Filter>src\devices\machine</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\..\..\src\devices\machine\ram.cpp">
+      <Filter>src\devices\machine</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\..\..\src\devices\machine\legscsi.cpp">
+      <Filter>src\devices\machine</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\..\..\src\devices\machine\sdlc.cpp">
+      <Filter>src\devices\machine</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\..\..\src\devices\machine\terminal.cpp">
+      <Filter>src\devices\machine</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\..\..\src\devices\machine\timer.cpp">
+      <Filter>src\devices\machine</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\..\..\src\devices\imagedev\bitbngr.cpp">
+      <Filter>src\devices\imagedev</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\..\..\src\devices\imagedev\cartrom.cpp">
+      <Filter>src\devices\imagedev</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\..\..\src\devices\imagedev\cassette.cpp">
+      <Filter>src\devices\imagedev</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\..\..\src\devices\imagedev\cdromimg.cpp">
+      <Filter>src\devices\imagedev</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\..\..\src\devices\imagedev\diablo.cpp">
+      <Filter>src\devices\imagedev</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\..\..\src\devices\imagedev\flopdrv.cpp">
+      <Filter>src\devices\imagedev</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\..\..\src\devices\imagedev\floppy.cpp">
+      <Filter>src\devices\imagedev</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\..\..\src\devices\imagedev\harddriv.cpp">
+      <Filter>src\devices\imagedev</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\..\..\src\devices\imagedev\magtape.cpp">
+      <Filter>src\devices\imagedev</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\..\..\src\devices\imagedev\memcard.cpp">
+      <Filter>src\devices\imagedev</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\..\..\src\devices\imagedev\mfmhd.cpp">
+      <Filter>src\devices\imagedev</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\..\..\src\devices\imagedev\microdrv.cpp">
+      <Filter>src\devices\imagedev</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\..\..\src\devices\imagedev\midiin.cpp">
+      <Filter>src\devices\imagedev</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\..\..\src\devices\imagedev\midiout.cpp">
+      <Filter>src\devices\imagedev</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\..\..\src\devices\imagedev\papertape.cpp">
+      <Filter>src\devices\imagedev</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\..\..\src\devices\imagedev\picture.cpp">
+      <Filter>src\devices\imagedev</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\..\..\src\devices\imagedev\printer.cpp">
+      <Filter>src\devices\imagedev</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\..\..\src\devices\imagedev\simh_tape_image.cpp">
+      <Filter>src\devices\imagedev</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\..\..\src\devices\imagedev\snapquik.cpp">
+      <Filter>src\devices\imagedev</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\..\..\src\devices\imagedev\wafadrive.cpp">
+      <Filter>src\devices\imagedev</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\..\..\src\devices\imagedev\avivideo.cpp">
+      <Filter>src\devices\imagedev</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\..\..\src\devices\machine\netlist.cpp">
+      <Filter>src\devices\machine</Filter>
+    </ClCompile>
+  </ItemGroup>
+</Project>

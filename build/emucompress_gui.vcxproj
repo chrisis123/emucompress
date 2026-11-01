@@ -74,6 +74,7 @@
 	  <SubSystem>Windows</SubSystem>
 	  <EnableCOMDATFolding>true</EnableCOMDATFolding>
 	  <OptimizeReferences>true</OptimizeReferences>
+		<GenerateDebugInformation>false</GenerateDebugInformation>
 	  <AdditionalLibraryDirectories>$(MSBuildThisFileDirectory)..\source\xdvdfs\target\release;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
 		<AdditionalDependencies>xdvdfs_ffi.dll.lib;shell32.lib;comctl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
 	</Link>
@@ -81,12 +82,31 @@
   <ItemGroup>
 		<ClCompile Include="emucompress_gui.cpp" />
   </ItemGroup>
+	<ItemGroup>
+		<ResourceCompile Include="emucompress_gui.rc" />
+		<Image Include="emucompress_icon.png" />
+		<Image Include="emucompress_icon.ico" />
+	</ItemGroup>
   <ItemGroup>
 	<ClInclude Include="..\source\xdvdfs\include\xdvdfs_ffi.h" />
+	<ClInclude Include="chdman_api.h" />
+	<ClInclude Include="..\source\dolphin\Source\Core\DiscIO\DolphinRVZ.h" />
   </ItemGroup>
   <Target Name="CopyRustRuntime" AfterTargets="Build">
+	<Copy SourceFiles="$(MSBuildThisFileDirectory)README.md" DestinationFolder="$(TargetDir)" SkipUnchangedFiles="true" />
 	<Copy SourceFiles="$(MSBuildThisFileDirectory)..\source\xdvdfs\target\release\xdvdfs_ffi.dll" DestinationFolder="$(TargetDir)" SkipUnchangedFiles="true" />
+	<Copy SourceFiles="$(MSBuildThisFileDirectory)..\source\mame\build\windows-x64\Release\chdman.dll" DestinationFolder="$(TargetDir)" SkipUnchangedFiles="true" Condition="Exists('$(MSBuildThisFileDirectory)..\source\mame\build\windows-x64\Release\chdman.dll')" />
+	<Error Condition="!Exists('$(MSBuildThisFileDirectory)..\source\dolphin\build-x64\Binaries\DolphinRVZ.dll')" Text="Build the Dolphin dolphin-rvz target first; DolphinRVZ.dll was not found." />
+	<Copy SourceFiles="$(MSBuildThisFileDirectory)..\source\dolphin\build-x64\Binaries\DolphinRVZ.dll" DestinationFolder="$(TargetDir)" SkipUnchangedFiles="true" />
+	<Copy SourceFiles="$(MSBuildThisFileDirectory)emucompress_icon.png" DestinationFolder="$(TargetDir)" SkipUnchangedFiles="true" />
+	<Copy SourceFiles="@(DolphinRuntime)" DestinationFolder="$(TargetDir)" SkipUnchangedFiles="true" Condition="'@(DolphinRuntime)' != ''" />
   </Target>
+	<ItemGroup Condition="Exists('$(VSInstallDir)VC\Redist\MSVC\$(VCToolsRedistVersion)\$(Platform)\Microsoft.VC145.CRT')">
+		<DolphinRuntime Include="$(VSInstallDir)VC\Redist\MSVC\$(VCToolsRedistVersion)\$(Platform)\Microsoft.VC145.CRT\msvcp140.dll" />
+		<DolphinRuntime Include="$(VSInstallDir)VC\Redist\MSVC\$(VCToolsRedistVersion)\$(Platform)\Microsoft.VC145.CRT\msvcp140_atomic_wait.dll" />
+		<DolphinRuntime Include="$(VSInstallDir)VC\Redist\MSVC\$(VCToolsRedistVersion)\$(Platform)\Microsoft.VC145.CRT\vcruntime140.dll" />
+		<DolphinRuntime Include="$(VSInstallDir)VC\Redist\MSVC\$(VCToolsRedistVersion)\$(Platform)\Microsoft.VC145.CRT\vcruntime140_1.dll" />
+	</ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets" />
 </Project>

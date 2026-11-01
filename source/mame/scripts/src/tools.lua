@@ -828,4 +828,43 @@ if (_OPTIONS["osd"] == "sdl") or (_OPTIONS["osd"] == "sdl3") then
 					"uuid",
 					"version",
 				}
-			
+			configuration { "vs*" }
+				links {
+					libsdl,
+					"imm32",
+					"version",
+				}
+			configuration { }
+		else
+			local str = backtick(sdlconfigcmd() .. " --libs | sed 's/ -lSDLmain//'")
+			addlibfromstring(str)
+			addoptionsfromstring(str)
+		end
+		configuration { "x32", "vs*" }
+			libdirs {
+				path.join(_OPTIONS["SDL_INSTALL_ROOT"],"lib","x86")
+			}
+		configuration { "x64", "vs*" }
+			libdirs {
+				path.join(_OPTIONS["SDL_INSTALL_ROOT"],"lib","x64")
+			}
+	end
+
+	dofile("osd/sdl_cfg.lua")
+
+	includedirs {
+		MAME_DIR .. "src/osd",
+		MAME_DIR .. "src/lib/util",
+	}
+
+	files {
+		MAME_DIR .. "src/tools/testkeys.cpp",
+	}
+
+	configuration { "mingw*" or "vs*" }
+		targetextension ".exe"
+
+	configuration { }
+
+	strip()
+end

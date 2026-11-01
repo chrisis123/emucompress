@@ -9,15 +9,36 @@
 	  <UniqueIdentifier>{93995380-89BD-4B04-88EB-625FBE52EBFB}</UniqueIdentifier>
 	  <Extensions>h;hh;hpp;hxx</Extensions>
 	</Filter>
+	<Filter Include="Resource Files">
+		<UniqueIdentifier>{6D37B490-98FC-4D0A-94F3-3FE9DB318A58}</UniqueIdentifier>
+		<Extensions>rc;ico;png</Extensions>
+	</Filter>
   </ItemGroup>
   <ItemGroup>
 		<ClCompile Include="emucompress_gui.cpp">
 	  <Filter>Source Files</Filter>
 	</ClCompile>
   </ItemGroup>
+	<ItemGroup>
+	<ResourceCompile Include="emucompress_gui.rc">
+		<Filter>Resource Files</Filter>
+	</ResourceCompile>
+	<Image Include="emucompress_icon.png">
+		<Filter>Resource Files</Filter>
+	</Image>
+	<Image Include="emucompress_icon.ico">
+		<Filter>Resource Files</Filter>
+	</Image>
+	</ItemGroup>
   <ItemGroup>
 	<ClInclude Include="..\source\xdvdfs\include\xdvdfs_ffi.h">
 	  <Filter>Header Files</Filter>
 	</ClInclude>
+		<ClInclude Include="chdman_api.h">
+			<Filter>Header Files</Filter>
+		</ClInclude>
+		<ClInclude Include="..\source\dolphin\Source\Core\DiscIO\DolphinRVZ.h">
+			<Filter>Header Files</Filter>
+		</ClInclude>
   </ItemGroup>
 </Project>
