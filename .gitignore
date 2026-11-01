@@ -1,0 +1,11 @@
+.vs/
+build/bin/
+build/obj/
+*.exe
+*.dll
+*.lib
+*.pdb
+*.ilk
+target/
+source/mame/.git/
+source/xdvdfs/.git/

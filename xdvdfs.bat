@@ -1,0 +1,1 @@
+for /r %%i in (*.iso) do .\xdvdfs.exe pack "%%i" "%%~ni.xiso.iso" 
