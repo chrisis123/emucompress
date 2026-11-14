@@ -1,5 +1,7 @@
 # emucompress GUI
 
+![emucompress GUI screenshot](build/emucompress.jpg)
+
 `emucompress_gui.exe` is a Windows x64 utility for converting and extracting disc-image files. It brings three toolsets together in one drag-and-drop or file-picker interface:
 
 - Xbox XDVDFS/XISO packing and extraction, implemented by the Rust XDVDFS library, plus Xbox 360 ISO to ZAR (ZArchive) conversion for Xenia.
