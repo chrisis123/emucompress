@@ -1,1 +1,0 @@
-for /r %%i in (*.iso) do chdman createdvd -i "%%i" -o "%%~ni.chd" 

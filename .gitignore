@@ -9,3 +9,6 @@ build/obj/
 target/
 source/mame/.git/
 source/xdvdfs/.git/
+
+# Local helper scripts (not needed to build; kept locally only)
+/*.bat
