@@ -1,0 +1,30 @@
+emucompress
+Copyright (C) 2026 chrisis123 and emucompress contributors
+
+SPDX-License-Identifier: GPL-2.0-or-later
+
+This program is free software; you can redistribute it and/or modify it under
+the terms of the GNU General Public License as published by the Free Software
+Foundation; either version 2 of the License, or (at your option) any later
+version.
+
+This program is distributed in the hope that it will be useful, but WITHOUT ANY
+WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
+PARTICULAR PURPOSE. See the GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License along with
+this program; if not, write to the Free Software Foundation, Inc., 51 Franklin
+Street, Fifth Floor, Boston, MA 02110-1301, USA.
+
+The full license text is in LICENSES/GPL-2.0-or-later.txt.
+
+This license covers the emucompress GUI (build/emucompress_gui.cpp,
+build/chdman_api.h and the resources next to them). It was chosen because the
+GUI is distributed together with, and loads, DolphinRVZ.dll, which is licensed
+under GPL-2.0-or-later.
+
+emucompress distributes and uses third-party software that remains under its
+own licenses: chdman.dll (MAME, BSD-3-Clause), xdvdfs_ffi.dll (xdvdfs, MIT),
+DolphinRVZ.dll (Dolphin, GPL-2.0-or-later) and the Microsoft Visual C++
+runtime. See THIRD_PARTY_NOTICES.md for the complete list, copyright notices,
+source-code availability and the location of every license text.

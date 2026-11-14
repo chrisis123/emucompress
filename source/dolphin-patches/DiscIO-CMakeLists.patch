@@ -1,0 +1,30 @@
+diff --git a/Source/Core/DiscIO/CMakeLists.txt b/Source/Core/DiscIO/CMakeLists.txt
+index bfec96d..23d1350 100644
+--- a/Source/Core/DiscIO/CMakeLists.txt
++++ b/Source/Core/DiscIO/CMakeLists.txt
+@@ -86,3 +86,25 @@ if(MSVC)
+   # Add precompiled header
+   target_link_libraries(discio PRIVATE use_pch)
+ endif()
++
++add_library(dolphin-rvz SHARED
++  DolphinRVZ.cpp
++  DolphinRVZ.h
++  ../DolphinTool/ToolHeadlessPlatform.cpp
++)
++
++set_target_properties(dolphin-rvz PROPERTIES
++  EXCLUDE_FROM_ALL TRUE
++)
++
++set_target_properties(dolphin-rvz PROPERTIES
++  OUTPUT_NAME DolphinRVZ
++  RUNTIME_OUTPUT_DIRECTORY ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}
++  LIBRARY_OUTPUT_DIRECTORY ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}
++)
++
++target_link_libraries(dolphin-rvz PRIVATE discio uicommon)
++
++if(MSVC)
++  target_link_libraries(dolphin-rvz PRIVATE use_pch)
++endif()

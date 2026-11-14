@@ -49,16 +49,20 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
 	<ClCompile>
 	  <WarningLevel>Level4</WarningLevel>
-	  <SDLCheck>true</SDLCheck>
-	  <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-	  <ConformanceMode>true</ConformanceMode>
-	  <AdditionalIncludeDirectories>$(MSBuildThisFileDirectory)..\source\xdvdfs\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+		<SDLCheck>true</SDLCheck>
+		<PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+		<ConformanceMode>true</ConformanceMode>
+		<LanguageStandard>stdcpp17</LanguageStandard>
+		<AdditionalIncludeDirectories>$(MSBuildThisFileDirectory)..\source\xdvdfs\include;$(MSBuildThisFileDirectory)..\source\zarchive\include;$(MSBuildThisFileDirectory)..\source\mame\3rdparty\zstd\lib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
 	</ClCompile>
 	<Link>
 	  <SubSystem>Windows</SubSystem>
 	  <AdditionalLibraryDirectories>$(MSBuildThisFileDirectory)..\source\xdvdfs\target\release;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-		<AdditionalDependencies>xdvdfs_ffi.dll.lib;shell32.lib;comctl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+		<AdditionalDependencies>xdvdfs_ffi.dll.lib;shell32.lib;comctl32.lib;gdiplus.lib;dwmapi.lib;uxtheme.lib;%(AdditionalDependencies)</AdditionalDependencies>
 	</Link>
+	<Manifest>
+	  <AdditionalManifestFiles>$(MSBuildThisFileDirectory)emucompress_gui.manifest %(AdditionalManifestFiles)</AdditionalManifestFiles>
+	</Manifest>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
 	<ClCompile>
@@ -66,9 +70,10 @@
 	  <FunctionLevelLinking>true</FunctionLevelLinking>
 	  <IntrinsicFunctions>true</IntrinsicFunctions>
 	  <SDLCheck>true</SDLCheck>
-	  <PreprocessorDefinitions>NDEBUG;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-	  <ConformanceMode>true</ConformanceMode>
-	  <AdditionalIncludeDirectories>$(MSBuildThisFileDirectory)..\source\xdvdfs\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+		<PreprocessorDefinitions>NDEBUG;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+		<ConformanceMode>true</ConformanceMode>
+		<LanguageStandard>stdcpp17</LanguageStandard>
+		<AdditionalIncludeDirectories>$(MSBuildThisFileDirectory)..\source\xdvdfs\include;$(MSBuildThisFileDirectory)..\source\zarchive\include;$(MSBuildThisFileDirectory)..\source\mame\3rdparty\zstd\lib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
 	</ClCompile>
 	<Link>
 	  <SubSystem>Windows</SubSystem>
@@ -76,20 +81,39 @@
 	  <OptimizeReferences>true</OptimizeReferences>
 		<GenerateDebugInformation>false</GenerateDebugInformation>
 	  <AdditionalLibraryDirectories>$(MSBuildThisFileDirectory)..\source\xdvdfs\target\release;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-		<AdditionalDependencies>xdvdfs_ffi.dll.lib;shell32.lib;comctl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+		<AdditionalDependencies>xdvdfs_ffi.dll.lib;shell32.lib;comctl32.lib;gdiplus.lib;dwmapi.lib;uxtheme.lib;%(AdditionalDependencies)</AdditionalDependencies>
 	</Link>
+	<Manifest>
+	  <AdditionalManifestFiles>$(MSBuildThisFileDirectory)emucompress_gui.manifest %(AdditionalManifestFiles)</AdditionalManifestFiles>
+	</Manifest>
   </ItemDefinitionGroup>
   <ItemGroup>
 		<ClCompile Include="emucompress_gui.cpp" />
-  </ItemGroup>
+	</ItemGroup>
+	<ItemGroup Label="ThirdPartyZArchive">
+		<ClCompile Include="..\source\zarchive\src\zarchivewriter.cpp;..\source\zarchive\src\zarchivereader.cpp;..\source\zarchive\src\sha_256.c">
+			<WarningLevel>TurnOffAllWarnings</WarningLevel>
+			<SDLCheck>false</SDLCheck>
+		</ClCompile>
+		<ClCompile Include="..\source\mame\3rdparty\zstd\lib\common\*.c;..\source\mame\3rdparty\zstd\lib\compress\*.c;..\source\mame\3rdparty\zstd\lib\decompress\*.c">
+			<WarningLevel>TurnOffAllWarnings</WarningLevel>
+			<SDLCheck>false</SDLCheck>
+			<PreprocessorDefinitions>ZSTD_DISABLE_ASM=1;ZSTD_LEGACY_SUPPORT=0;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+		</ClCompile>
+	</ItemGroup>
 	<ItemGroup>
 		<ResourceCompile Include="emucompress_gui.rc" />
 		<Image Include="emucompress_icon.png" />
 		<Image Include="emucompress_icon.ico" />
+		<Manifest Include="emucompress_gui.manifest" />
 	</ItemGroup>
   <ItemGroup>
 	<ClInclude Include="..\source\xdvdfs\include\xdvdfs_ffi.h" />
 	<ClInclude Include="chdman_api.h" />
+	<ClInclude Include="..\source\zarchive\include\zarchive\zarchivecommon.h" />
+	<ClInclude Include="..\source\zarchive\include\zarchive\zarchivereader.h" />
+	<ClInclude Include="..\source\zarchive\include\zarchive\zarchivewriter.h" />
+	<ClInclude Include="..\source\zarchive\src\sha_256.h" />
 	<ClInclude Include="..\source\dolphin\Source\Core\DiscIO\DolphinRVZ.h" />
   </ItemGroup>
   <Target Name="CopyRustRuntime" AfterTargets="Build">
@@ -100,7 +124,15 @@
 	<Copy SourceFiles="$(MSBuildThisFileDirectory)..\source\dolphin\build-x64\Binaries\DolphinRVZ.dll" DestinationFolder="$(TargetDir)" SkipUnchangedFiles="true" />
 	<Copy SourceFiles="$(MSBuildThisFileDirectory)emucompress_icon.png" DestinationFolder="$(TargetDir)" SkipUnchangedFiles="true" />
 	<Copy SourceFiles="@(DolphinRuntime)" DestinationFolder="$(TargetDir)" SkipUnchangedFiles="true" Condition="'@(DolphinRuntime)' != ''" />
-  </Target>
+	</Target>
+	<Target Name="CopyLicenses" AfterTargets="Build">
+	<ItemGroup>
+		<LicenseTexts Include="$(MSBuildThisFileDirectory)..\LICENSES\**\*" />
+	</ItemGroup>
+	<Error Condition="!Exists('$(MSBuildThisFileDirectory)..\LICENSE') Or !Exists('$(MSBuildThisFileDirectory)..\THIRD_PARTY_NOTICES.md') Or '@(LicenseTexts)' == ''" Text="LICENSE, THIRD_PARTY_NOTICES.md and the LICENSES folder must be present in the repository root; they are required to distribute the binaries." />
+	<Copy SourceFiles="$(MSBuildThisFileDirectory)..\LICENSE;$(MSBuildThisFileDirectory)..\THIRD_PARTY_NOTICES.md" DestinationFolder="$(TargetDir)" SkipUnchangedFiles="true" />
+	<Copy SourceFiles="@(LicenseTexts)" DestinationFiles="@(LicenseTexts->'$(TargetDir)LICENSES\%(RecursiveDir)%(Filename)%(Extension)')" SkipUnchangedFiles="true" />
+	</Target>
 	<ItemGroup Condition="Exists('$(VSInstallDir)VC\Redist\MSVC\$(VCToolsRedistVersion)\$(Platform)\Microsoft.VC145.CRT')">
 		<DolphinRuntime Include="$(VSInstallDir)VC\Redist\MSVC\$(VCToolsRedistVersion)\$(Platform)\Microsoft.VC145.CRT\msvcp140.dll" />
 		<DolphinRuntime Include="$(VSInstallDir)VC\Redist\MSVC\$(VCToolsRedistVersion)\$(Platform)\Microsoft.VC145.CRT\msvcp140_atomic_wait.dll" />

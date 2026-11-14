@@ -1,0 +1,3 @@
+[submodule "source/dolphin"]
+	path = source/dolphin
+	url = https://github.com/dolphin-emu/dolphin.git

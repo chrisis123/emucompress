@@ -1,0 +1,1 @@
+Vendored from https://github.com/Exzap/ZArchive at commit 965b66c8d67b6b7e30fd63b3b75aa91a99ff303b (unmodified).

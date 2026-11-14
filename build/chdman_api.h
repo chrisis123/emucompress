@@ -1,3 +1,6 @@
+// Copyright (C) 2026 chrisis123 and emucompress contributors
+// SPDX-License-Identifier: GPL-2.0-or-later
+
 #ifndef CHDMAN_API_H
 #define CHDMAN_API_H
 
