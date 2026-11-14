@@ -134,7 +134,7 @@ rebuilding `DolphinRVZ.dll` from the provided source.
 corresponding source code, including the emucompress changes to Dolphin and the
 build files needed to rebuild the binaries, is available at
 
-> https://github.com/chrisis123/emucompress2
+> https://github.com/chrisis123/emucompress
 
 The Dolphin and MAME source trees used for the build are in `source/dolphin`
 and `source/mame` (the latter reduced to the files needed to build
