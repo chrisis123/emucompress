@@ -41,9 +41,13 @@ The window uses a custom-drawn, DPI-aware layout (per-monitor scaling) and follo
 
 	  This builds `DolphinRVZ.dll` and only the libraries required by its DiscIO conversion code; it does not build the Dolphin application or DolphinTool executable. The `Release | x64` GUI build copies it and its required MSVC runtime DLLs beside the executable.
 
-3. Generate and build the CHDMAN shared library from `source\mame` using MAME's Genie build system and Visual Studio:
+3. Build the CHDMAN shared library from the trimmed MAME tree in `source\mame`. It contains only the sources `chdman.dll` needs (`src/tools`, `src/lib/util`, `src/osd` and the `3rdparty` libraries zlib, zstd, FLAC, LZMA, expat, utf8proc, pugixml, asio, nanosvg and the AES helpers) plus the pre-generated Visual Studio projects:
 
-   The generated target is `chdman_dll.vcxproj` and produces `chdman.dll` from the same source and dependencies as the normal CHDMAN tool.
+   ```powershell
+   msbuild source\mame\build\vs2022\projects\windows\mame\vs2022\chdman_dll.vcxproj /p:Configuration=Release /p:Platform=x64
+   ```
+
+   The result is `source\mame\build\vs2022\vs2022\bin\x64\Release\chdman.dll`, which the GUI build copies beside the executable. The full MAME source is at https://github.com/mamedev/mame.
 
 4. Build `emucompress_gui.vcxproj` in Visual Studio using the `Release | x64` configuration. The project's post-build step stages `README.md`, `DolphinRVZ.dll`, its MSVC runtime dependencies, and any available conversion DLLs beside `emucompress_gui.exe`.
 

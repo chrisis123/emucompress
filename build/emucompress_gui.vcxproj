@@ -120,6 +120,7 @@
 	<Copy SourceFiles="$(MSBuildThisFileDirectory)README.md" DestinationFolder="$(TargetDir)" SkipUnchangedFiles="true" />
 	<Copy SourceFiles="$(MSBuildThisFileDirectory)..\source\xdvdfs\target\release\xdvdfs_ffi.dll" DestinationFolder="$(TargetDir)" SkipUnchangedFiles="true" />
 	<Copy SourceFiles="$(MSBuildThisFileDirectory)..\source\mame\build\windows-x64\Release\chdman.dll" DestinationFolder="$(TargetDir)" SkipUnchangedFiles="true" Condition="Exists('$(MSBuildThisFileDirectory)..\source\mame\build\windows-x64\Release\chdman.dll')" />
+	<Copy SourceFiles="$(MSBuildThisFileDirectory)..\source\mame\build\vs2022\vs2022\bin\x64\Release\chdman.dll" DestinationFolder="$(TargetDir)" SkipUnchangedFiles="true" Condition="Exists('$(MSBuildThisFileDirectory)..\source\mame\build\vs2022\vs2022\bin\x64\Release\chdman.dll')" />
 	<Error Condition="!Exists('$(MSBuildThisFileDirectory)..\source\dolphin\build-x64\Binaries\DolphinRVZ.dll')" Text="Build the Dolphin dolphin-rvz target first; DolphinRVZ.dll was not found." />
 	<Copy SourceFiles="$(MSBuildThisFileDirectory)..\source\dolphin\build-x64\Binaries\DolphinRVZ.dll" DestinationFolder="$(TargetDir)" SkipUnchangedFiles="true" />
 	<Copy SourceFiles="$(MSBuildThisFileDirectory)emucompress_icon.png" DestinationFolder="$(TargetDir)" SkipUnchangedFiles="true" />

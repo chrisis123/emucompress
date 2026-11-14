@@ -12,7 +12,7 @@ The emucompress GUI itself is licensed under **GPL-2.0-or-later**; see
 
 | File | Component | License | Copyright / upstream | License texts |
 | --- | --- | --- | --- | --- |
-| `emucompress_gui.exe` | emucompress GUI | GPL-2.0-or-later | Copyright (C) 2026 chrisis123 and emucompress contributors | `LICENSE`, `LICENSES/GPL-2.0-or-later.txt` |
+| `emucompress_gui.exe` | emucompress GUI, with ZArchive and Zstandard compiled in (see below) | GPL-2.0-or-later (GUI); MIT-0, Unlicense or 0BSD, and BSD-3-Clause for the compiled-in libraries | Copyright (C) 2026 chrisis123 and emucompress contributors | `LICENSE`, `LICENSES/GPL-2.0-or-later.txt`, `LICENSES/third-party/zarchive/` |
 | `chdman.dll` | chdman, from MAME | BSD-3-Clause (per file, see below) | Copyright MAMEdev and contributors, mainly Aaron Giles; https://github.com/mamedev/mame | `LICENSES/third-party/mame-chdman/` |
 | `xdvdfs_ffi.dll` | xdvdfs and its Rust dependencies | MIT, plus the crate licenses (MIT, Apache-2.0, BSD-3-Clause, Zlib, Unicode-3.0, Unlicense) | Copyright 2023 antangelo; https://github.com/antangelo/xdvdfs | `LICENSES/third-party/xdvdfs/` |
 | `DolphinRVZ.dll` | Dolphin disc I/O, built from the Dolphin source tree | GPL-2.0-or-later, with bundled libraries under their own licenses (see below) | Copyright Dolphin Emulator Project; https://github.com/dolphin-emu/dolphin | `LICENSES/third-party/dolphin/` |
@@ -137,7 +137,8 @@ build files needed to rebuild the binaries, is available at
 > https://github.com/chrisis123/emucompress2
 
 The Dolphin and MAME source trees used for the build are in `source/dolphin`
-and `source/mame`; unmodified upstream versions are at
+and `source/mame` (the latter reduced to the files needed to build
+`chdman.dll` and to supply zstd); unmodified upstream versions are at
 https://github.com/dolphin-emu/dolphin and https://github.com/mamedev/mame.
 
 If you received a binary release without the source code, you may request it
