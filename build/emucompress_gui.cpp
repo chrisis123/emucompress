@@ -68,6 +68,17 @@ constexpr UINT_PTR ResetChdmanFolderButtonId = 1022;
 constexpr UINT_PTR ResetDolphinFolderButtonId = 1023;
 constexpr UINT_PTR IsoToZarButtonId = 1024;
 constexpr UINT_PTR ZarToXisoButtonId = 1025;
+constexpr UINT_PTR IsoToWiaButtonId = 1026;
+constexpr UINT_PTR WiaToIsoButtonId = 1027;
+constexpr UINT_PTR IsoToGczButtonId = 1028;
+constexpr UINT_PTR GczToIsoButtonId = 1029;
+// Values understood by DolphinDiscConvert in DolphinRVZ.dll.
+constexpr int DolphinFormatIso = 0;
+constexpr int DolphinFormatRvz = 1;
+constexpr int DolphinFormatWia = 2;
+constexpr int DolphinFormatGcz = 3;
+constexpr unsigned int DolphinNoteNkit = 1;
+constexpr unsigned int DolphinNoteWiiGcz = 2;
 constexpr int ConversionKindIsoToZar = 6;
 constexpr int ConversionKindZarToXiso = 7;
 constexpr wchar_t ProgressClassName[] = L"EmucompressProgress";
@@ -96,6 +107,8 @@ std::atomic<int> conversion_kind = 0;
 std::atomic<unsigned long long> total_bytes = 1;
 std::atomic<unsigned long long> completed_bytes = 0;
 std::atomic<int> dolphin_progress_percent = 0;
+std::atomic<int> dolphin_target_format = DolphinFormatIso;
+std::atomic<unsigned int> dolphin_notes = 0;
 std::atomic<unsigned long long> dolphin_progress_bytes = 0;
 std::atomic<unsigned long long> zar_progress_bytes = 0;
 std::atomic<int> zar_phase = 1;
@@ -672,7 +685,7 @@ void StartConversion(const std::wstring& input, bool to_standard_iso = false)
     });
 }
 
-void StartDolphinConversion(const std::wstring& input, bool to_rvz)
+void StartDolphinConversion(const std::wstring& input, int target_format)
 {
     if (conversion_active.exchange(true))
     {
@@ -686,8 +699,33 @@ void StartDolphinConversion(const std::wstring& input, bool to_rvz)
         conversion_thread.join();
     }
 
+    const wchar_t* output_extension = L"iso";
+    const wchar_t* operation_text = L"Converting GameCube/Wii disc image to ISO...";
+    const wchar_t* status_text = L"Converting disc image to ISO...";
+    switch (target_format)
+    {
+    case DolphinFormatRvz:
+        output_extension = L"rvz";
+        operation_text = L"Compressing GameCube/Wii ISO to RVZ...";
+        status_text = operation_text;
+        break;
+    case DolphinFormatWia:
+        output_extension = L"wia";
+        operation_text = L"Compressing GameCube/Wii ISO to WIA...";
+        status_text = operation_text;
+        break;
+    case DolphinFormatGcz:
+        output_extension = L"gcz";
+        operation_text = L"Compressing GameCube/Wii ISO to GCZ...";
+        status_text = operation_text;
+        break;
+    default:
+        target_format = DolphinFormatIso;
+        break;
+    }
+
     const std::wstring output = OutputPathInDirectory(
-        ReplaceExtension(input, to_rvz ? L"rvz" : L"iso"), dolphin_output_directory);
+        ReplaceExtension(input, output_extension), dolphin_output_directory);
     const bool output_existed = GetFileAttributesW(output.c_str()) != INVALID_FILE_ATTRIBUTES;
     if (output_existed)
     {
@@ -702,17 +740,17 @@ void StartDolphinConversion(const std::wstring& input, bool to_rvz)
     dolphin_progress_percent.store(0);
     conversion_unpack.store(false);
     conversion_kind.store(5);
-    conversion_operation = to_rvz
-        ? L"Compressing GameCube/Wii ISO to RVZ..."
-        : L"Converting GameCube/Wii RVZ to ISO...";
+    dolphin_target_format.store(target_format);
+    dolphin_notes.store(0);
+    conversion_operation = operation_text;
     conversion_start = std::chrono::steady_clock::now();
     SendMessageW(progress_control, PBM_SETPOS, 0, 0);
     SendMessageW(progress_control, PBM_SETMARQUEE, FALSE, 0);
-    SetStatus(to_rvz ? L"Compressing GameCube/Wii ISO to RVZ..." : L"Converting RVZ to ISO...");
+    SetStatus(status_text);
     SetTimer(main_window, ConversionTimerId, 250, nullptr);
     SetCancelButtonEnabled(true);
 
-    conversion_thread = std::thread([input, output, to_rvz, output_existed]()
+    conversion_thread = std::thread([input, output, target_format, output_existed]()
     {
         int status = XDVDFS_OPERATION_FAILED;
         std::string error;
@@ -720,8 +758,9 @@ void StartDolphinConversion(const std::wstring& input, bool to_rvz)
         if (library != nullptr)
         {
             using ProgressCallback = int (*)(float, void*);
-            using ConvertFunction = int (*)(const char*, const char*, int, ProgressCallback, void*, char*, unsigned int);
-            const auto convert = reinterpret_cast<ConvertFunction>(GetProcAddress(library, "DolphinRVZConvert"));
+            using ConvertFunction = int (*)(const char*, const char*, int, ProgressCallback, void*, char*,
+                unsigned int, unsigned int*);
+            const auto convert = reinterpret_cast<ConvertFunction>(GetProcAddress(library, "DolphinDiscConvert"));
             if (convert != nullptr)
             {
                 struct ProgressContext
@@ -743,9 +782,11 @@ void StartDolphinConversion(const std::wstring& input, bool to_rvz)
                 const std::string input_utf8 = ToUtf8(input);
                 const std::string output_utf8 = ToUtf8(output);
                 std::vector<char> diagnostic(4096, '\0');
-                const int result = convert(input_utf8.c_str(), output_utf8.c_str(), to_rvz ? 1 : 0,
+                unsigned int notes = 0;
+                const int result = convert(input_utf8.c_str(), output_utf8.c_str(), target_format,
                     report_progress, &progress_context, diagnostic.data(),
-                    static_cast<unsigned int>(diagnostic.size()));
+                    static_cast<unsigned int>(diagnostic.size()), &notes);
+                dolphin_notes.store(notes);
                 status = result == 0 ? XDVDFS_SUCCESS : XDVDFS_OPERATION_FAILED;
                 if (result != 0)
                 {
@@ -754,13 +795,13 @@ void StartDolphinConversion(const std::wstring& input, bool to_rvz)
                     {
                         error = cancel_requested.load()
                             ? "Conversion canceled by user"
-                            : "Dolphin RVZ conversion failed with code " + std::to_string(result);
+                            : "Dolphin conversion failed with code " + std::to_string(result);
                     }
                 }
             }
             else
             {
-                error = "DolphinRVZ.dll does not export DolphinRVZConvert";
+                error = "DolphinRVZ.dll is too old: it does not export DolphinDiscConvert";
             }
             FreeLibrary(library);
         }
@@ -1472,7 +1513,7 @@ bool DispatchOperation(UINT_PTR operation_id, const std::wstring& input)
             SetStatus(L"ISO to RVZ requires a GameCube/Wii .iso input.");
             return false;
         }
-        StartDolphinConversion(input, true);
+        StartDolphinConversion(input, DolphinFormatRvz);
         break;
     case RvzToIsoButtonId:
         if (!EndsWith(input, L".rvz"))
@@ -1480,7 +1521,39 @@ bool DispatchOperation(UINT_PTR operation_id, const std::wstring& input)
             SetStatus(L"RVZ to ISO requires a .rvz input.");
             return false;
         }
-        StartDolphinConversion(input, false);
+        StartDolphinConversion(input, DolphinFormatIso);
+        break;
+    case IsoToWiaButtonId:
+        if (!EndsWith(input, L".iso"))
+        {
+            SetStatus(L"ISO to WIA requires a GameCube/Wii .iso input.");
+            return false;
+        }
+        StartDolphinConversion(input, DolphinFormatWia);
+        break;
+    case WiaToIsoButtonId:
+        if (!EndsWith(input, L".wia"))
+        {
+            SetStatus(L"WIA to ISO requires a .wia input.");
+            return false;
+        }
+        StartDolphinConversion(input, DolphinFormatIso);
+        break;
+    case IsoToGczButtonId:
+        if (!EndsWith(input, L".iso"))
+        {
+            SetStatus(L"ISO to GCZ requires a GameCube/Wii .iso input.");
+            return false;
+        }
+        StartDolphinConversion(input, DolphinFormatGcz);
+        break;
+    case GczToIsoButtonId:
+        if (!EndsWith(input, L".gcz"))
+        {
+            SetStatus(L"GCZ to ISO requires a .gcz input.");
+            return false;
+        }
+        StartDolphinConversion(input, DolphinFormatIso);
         break;
     case IsoToZarButtonId:
         if (!EndsWith(input, L".iso"))
@@ -1588,6 +1661,27 @@ bool ConfirmZarFidelity(bool to_zar)
         to_zar ? L"Convert ISO to ZAR" : L"Convert ZAR to XISO", MB_OKCANCEL | MB_ICONINFORMATION) == IDOK;
 }
 
+bool ConfirmDolphinFidelity(bool to_wia)
+{
+    const std::wstring format = to_wia ? L"WIA" : L"GCZ";
+    const std::wstring message =
+        L"Converting to " + format + L" is designed to be lossless: converting the file back to ISO "
+        L"restores the original image bit for bit when the source is an unmodified, full disc dump.\n\n"
+        L"This is NOT guaranteed in every case:\n"
+        L"\u2022 Scrubbed or trimmed images, and NKit images, no longer contain the complete original disc. "
+        L"They are stored as they are and the removed data cannot be brought back.\n"
+        L"\u2022 WBFS and CISO inputs are not accepted; convert them to a plain ISO first.\n"
+        + (to_wia
+            ? std::wstring(L"\u2022 WIA is the older Dolphin format. RVZ compresses better and is the better choice unless "
+                L"you need WIA for compatibility with other tools.\n")
+            : std::wstring(L"\u2022 GCZ saves little space on Wii discs because their data is encrypted. "
+                L"It is mainly useful for GameCube images.\n"
+                L"\u2022 Very old Dolphin versions (before 5.0-11893) may refuse some GCZ files.\n"))
+        + L"\nThe round trip was verified on a GameCube image only. Continue?";
+    return MessageBoxW(main_window, message.c_str(),
+        to_wia ? L"Convert ISO to WIA" : L"Convert ISO to GCZ", MB_OKCANCEL | MB_ICONINFORMATION) == IDOK;
+}
+
 void BeginOperation(UINT_PTR operation_id)
 {
     std::vector<std::wstring> inputs = selected_input_paths;
@@ -1609,6 +1703,20 @@ void BeginOperation(UINT_PTR operation_id)
         if (!ConfirmZarFidelity(operation_id == IsoToZarButtonId))
         {
             SetStatus(L"ZAR conversion canceled.");
+            return;
+        }
+    }
+
+    if (operation_id == IsoToWiaButtonId || operation_id == IsoToGczButtonId)
+    {
+        if (conversion_active.load() || batch_running)
+        {
+            SetStatus(L"A conversion is already running.");
+            return;
+        }
+        if (!ConfirmDolphinFidelity(operation_id == IsoToWiaButtonId))
+        {
+            SetStatus(L"Conversion canceled.");
             return;
         }
     }
@@ -1872,7 +1980,7 @@ void SelectionText(std::wstring& title, std::wstring& detail)
     if (files.empty())
     {
         title = L"Drop a disc image here";
-        detail = L"ISO, XISO, CUE/GDI, CHD and RVZ are supported. Drop one file, or choose several for a batch.";
+        detail = L"ISO, XISO, CUE/GDI, CHD, ZAR, RVZ, WIA and GCZ are supported. Drop one file, or choose several for a batch.";
     }
     else if (files.size() == 1)
     {
@@ -2097,6 +2205,14 @@ const wchar_t* TooltipFor(UINT_PTR id)
         return L"Compress a GameCube or Wii .iso into a space-saving .rvz file. This can be cancelled while running.";
     case RvzToIsoButtonId:
         return L"Restore a GameCube or Wii .rvz file to a full .iso image.";
+    case IsoToWiaButtonId:
+        return L"Compress a GameCube or Wii .iso into a .wia file (older Dolphin format; RVZ compresses better). Designed to be lossless, but not guaranteed for scrubbed or NKit images. You are asked to confirm first.";
+    case WiaToIsoButtonId:
+        return L"Restore a GameCube or Wii .wia file to a full .iso image.";
+    case IsoToGczButtonId:
+        return L"Compress a GameCube or Wii .iso into a .gcz file. Works well for GameCube; saves little on Wii discs. Designed to be lossless, but not guaranteed for scrubbed or NKit images. You are asked to confirm first.";
+    case GczToIsoButtonId:
+        return L"Restore a GameCube or Wii .gcz file to a full .iso image.";
     case PickXdvdfsFolderButtonId:
     case PickChdmanFolderButtonId:
     case PickDolphinFolderButtonId:
@@ -2106,7 +2222,7 @@ const wchar_t* TooltipFor(UINT_PTR id)
     case ResetDolphinFolderButtonId:
         return L"Go back to saving results next to the input file.";
     case CancelOperationButtonId:
-        return L"Stop the running job and skip the remaining files of a batch. ISO to ZAR, ZAR extraction and RVZ jobs stop right away; other Xbox and CHD jobs finish the current file first.";
+        return L"Stop the running job and skip the remaining files of a batch. ISO to ZAR, ZAR extraction and GameCube/Wii (Dolphin) jobs stop right away; other Xbox and CHD jobs finish the current file first.";
     case ReadmeMenuItemId:
         return L"Open the README with usage notes and build details.";
     case AboutMenuItemId:
@@ -2454,8 +2570,10 @@ void CreateUi(HWND window)
             {ExtractCdButtonId, L"Extract CD"}, {ExtractDvdButtonId, L"Extract DVD"},
             {ExtractCdToIsoButtonId, L"Extract CD to ISO"}},
         PickChdmanFolderButtonId, ResetChdmanFolderButtonId, &chdman_output_directory);
-    add_card(L"GameCube / Wii", L"Dolphin \u00B7 ISO and RVZ",
-        {{IsoToRvzButtonId, L"ISO to RVZ"}, {RvzToIsoButtonId, L"RVZ to ISO"}},
+    add_card(L"GameCube / Wii", L"Dolphin \u00B7 ISO, RVZ, WIA and GCZ",
+        {{IsoToRvzButtonId, L"ISO to RVZ"}, {RvzToIsoButtonId, L"RVZ to ISO"},
+            {IsoToWiaButtonId, L"ISO to WIA"}, {WiaToIsoButtonId, L"WIA to ISO"},
+            {IsoToGczButtonId, L"ISO to GCZ"}, {GczToIsoButtonId, L"GCZ to ISO"}},
         PickDolphinFolderButtonId, ResetDolphinFolderButtonId, &dolphin_output_directory);
 
     CreateUiButton(window, BrowseFilesButtonId, L"Choose files...", ButtonKind::Primary, true);
@@ -2598,9 +2716,10 @@ LRESULT CALLBACK WindowProc(HWND window, UINT message, WPARAM wparam, LPARAM lpa
             MessageBoxW(window,
                 L"emucompress is a utility for converting and extracting disc images.\n\n"
                 L"It supports Xbox XDVDFS/XISO images, Xbox 360 ISO to ZAR (ZArchive) conversion, CHD creation and extraction, and "
-                L"GameCube/Wii ISO and RVZ conversion. Drop a supported file onto the window "
+                L"GameCube/Wii ISO, RVZ, WIA and GCZ conversion. Drop a supported file onto the window "
                 L"and choose an operation. Output folders can be selected for each format.\n\n"
-                L"ZAR conversion is reversible, but the restored image is not byte-identical to the original ISO.\n\n"
+                L"ZAR conversion is reversible, but the restored image is not byte-identical to the original ISO. "
+                L"WIA and GCZ are designed to restore the original ISO exactly, but this is not guaranteed for scrubbed or NKit images.\n\n"
                 L"Copyright (C) 2026 chrisis123 and contributors. Licensed under the GNU GPL, "
                 L"version 2 or later, with NO WARRANTY. Uses MAME chdman (BSD-3-Clause), xdvdfs (MIT), "
                 L"ZArchive (MIT-0), zstd (BSD-3-Clause) and Dolphin (GPL-2.0-or-later). Full license texts and third-party notices are in "
@@ -2718,6 +2837,8 @@ LRESULT CALLBACK WindowProc(HWND window, UINT message, WPARAM wparam, LPARAM lpa
                 operation_id == CreateDvdButtonId || operation_id == ExtractCdButtonId ||
                 operation_id == ExtractDvdButtonId || operation_id == ExtractCdToIsoButtonId ||
                 operation_id == IsoToRvzButtonId || operation_id == RvzToIsoButtonId ||
+                operation_id == IsoToWiaButtonId || operation_id == WiaToIsoButtonId ||
+                operation_id == IsoToGczButtonId || operation_id == GczToIsoButtonId ||
                 operation_id == IsoToZarButtonId || operation_id == ZarToXisoButtonId)
             {
                 BeginOperation(operation_id);
@@ -2763,6 +2884,24 @@ LRESULT CALLBACK WindowProc(HWND window, UINT message, WPARAM wparam, LPARAM lpa
                     : L" - all files restored; not byte-identical to the original ISO.";
                 if (!conversion_notice.empty())
                     completion += L" " + conversion_notice;
+            }
+            if (!cancel_current_operation && kind == 5)
+            {
+                const int format = dolphin_target_format.load();
+                const unsigned int notes = dolphin_notes.load();
+                if (format == DolphinFormatWia || format == DolphinFormatGcz)
+                {
+                    completion += L" - converting it back to ISO restores the original image";
+                    completion += (notes & DolphinNoteNkit) != 0
+                        ? L", but this source is an NKit image, so the original disc cannot be fully restored."
+                        : L" (scrubbed or trimmed sources are restored as they were stored).";
+                    if ((notes & DolphinNoteWiiGcz) != 0)
+                        completion += L" Note: GCZ saves very little space on Wii discs; RVZ compresses better.";
+                }
+                else if ((notes & DolphinNoteNkit) != 0)
+                {
+                    completion += L" - note: this is an NKit image, so the output is still NKit and not the original disc.";
+                }
             }
             SetStatus(completion);
         }

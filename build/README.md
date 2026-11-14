@@ -4,7 +4,7 @@
 
 - Xbox XDVDFS/XISO packing and extraction, implemented by the Rust XDVDFS library, plus Xbox 360 ISO to ZAR (ZArchive) conversion for Xenia.
 - CD/DVD CHD creation and extraction, provided by the MAME CHDMAN library.
-- GameCube/Wii ISO and RVZ conversion, provided by Dolphin DiscIO.
+- GameCube/Wii ISO, RVZ, WIA and GCZ conversion, provided by Dolphin DiscIO.
 
 The GUI starts each conversion in the background so the window remains responsive. Build dependencies are loaded from DLLs beside the executable; keep those runtime DLLs in the same folder when moving the portable application.
 
@@ -15,7 +15,7 @@ The GUI starts each conversion in the background so the window remains responsiv
 3. Choose the operation button matching the selected inputs. The operation applies to every file selected in the picker.
 4. Optionally select an output folder for that operation group. If no folder is selected, outputs are placed beside their corresponding input files.
 5. Watch the status line and progress bar. Batch items are processed sequentially; incompatible files and failed conversions are recorded, and processing continues with the remaining files.
-6. To stop work, click `Cancel operation` and confirm. RVZ/ISO conversions and ISO to ZAR stop cooperatively (ZAR to XISO can be stopped while extracting). XDVDFS packing and CHDMAN do not expose safe cancellation, so the active file finishes and any remaining batch files are skipped.
+6. To stop work, click `Cancel operation` and confirm. GameCube/Wii (Dolphin) conversions and ISO to ZAR stop cooperatively (ZAR to XISO can be stopped while extracting). XDVDFS packing and CHDMAN do not expose safe cancellation, so the active file finishes and any remaining batch files are skipped.
 
 The three output-folder selections are independent and remain in effect until changed or the application closes. Output filenames are derived automatically from the input name. The GUI checks for existing outputs in some conversion paths; avoid choosing a destination that already contains files with the generated names. If a batch contains inputs with duplicate basenames and a shared output directory, later operations may encounter an existing output.
 
@@ -121,12 +121,16 @@ The CHDMAN row creates or extracts MAME CHD images. Output names use the input b
 - `Extract CD` and `Extract DVD` both accept CHD input, but use different CHDMAN operations and produce different output structures. Choose the action matching the CHD's disc type.
 - `Extract CD to ISO` is convenient when a single ISO output is needed instead of the CUE/track representation.
 
-## GameCube/Wii RVZ operations
+## GameCube/Wii operations (RVZ, WIA, GCZ)
 
 The Dolphin DLL is produced at `source\dolphin\build-x64\Binaries\DolphinRVZ.dll`; the GUI project's post-build step stages it and its MSVC runtime dependencies beside `emucompress_gui.exe`. Dolphin's other linked dependencies are static. Keep all staged DLLs beside the executable when moving the portable application.
 
 - `ISO to RVZ` accepts a GameCube/Wii `.iso` and invokes Dolphin's native DiscIO conversion with RVZ, 128 KiB chunks, and Zstandard level 5. Scrubbing is disabled; the conversion retains unused/junk-sector data rather than replacing it with zeros.
 - `RVZ to ISO` accepts `.rvz` and converts it back to `.iso`. With input data retained during RVZ creation, converting the RVZ back is intended to reproduce the source image bytes.
+- `ISO to WIA` accepts a GameCube/Wii `.iso` and writes a `.wia` (LZMA2 level 5, 2 MiB chunks). WIA is Dolphin's older format; RVZ compresses better, so prefer RVZ unless you need WIA for compatibility with other tools. `WIA to ISO` accepts `.wia`.
+- `ISO to GCZ` accepts a GameCube/Wii `.iso` and writes a `.gcz` (zlib, 128 KiB blocks). `GCZ to ISO` accepts `.gcz`. GCZ saves little space on Wii discs because their data is encrypted; it is mainly useful for GameCube images.
+- Any Dolphin-readable container (`.rvz`, `.wia`, `.gcz`, ...) can be restored with the matching `... to ISO` button. WBFS and CISO inputs cannot be compressed to WIA/GCZ because they do not store the exact image size; convert them to ISO first.
+- **Reversibility.** RVZ, WIA and GCZ are designed to be lossless: converting back to ISO reproduces the original image bit for bit when it was made from an unmodified, complete disc dump. This is not guaranteed when the source was scrubbed/trimmed or is an NKit image, because that data is no longer present in the input and cannot be restored; the output then restores exactly what the source contained. The GUI asks for confirmation before ISO to WIA/GCZ and reports a note on completion when it detects an NKit source (or a Wii disc written to GCZ). Very old Dolphin versions (before 5.0-11893) may refuse some GCZ files. RVZ, WIA and GCZ round trips were verified byte-identical (SHA-256) on a GameCube image and on a dual-layer Wii image (WBFS to ISO, then ISO to each format and back). A WBFS file is a scrubbed container, so the ISO made from it contains zeros where the WBFS stored nothing; that ISO is what round-trips exactly.
 - The output is written beside the input by default; the GameCube / Wii card's `Change...` button can select another location. Existing target files are rejected for RVZ conversions rather than overwritten.
 - Dolphin's progress callback updates the shared progress bar. The status line displays the current conversion activity and estimated time remaining.
 - `DolphinRVZ.dll` uses Dolphin's GPL-2.0-or-later DiscIO source. When distributing the DLL, comply with the GPL, provide the corresponding source and build changes, and include the applicable license and notices. A portable bundle must include the DLL's runtime dependencies beside the GUI as well.
@@ -141,7 +145,7 @@ Drag-and-drop support remains available and selects one input per drop. If a fil
 
 Conversions run in a background thread. Progress is displayed in the shared bar and status line; ETA is an estimate based on available byte/progress information and may vary by format. Output names are generated from each input, and the application reports conversion errors in the status line or batch summary. Batch processing does not automatically retry failures or overwrite existing outputs.
 
-`Cancel operation` always asks for confirmation. For RVZ/ISO conversions the active conversion checks the cancel request through Dolphin's progress callback, removes an incomplete output, and ends the batch. ISO to ZAR (and the extraction phase of ZAR to XISO) behaves the same way and also removes its partial output and temporary folder. For XDVDFS and CHDMAN operations the current backend call cannot be interrupted safely; after confirmation that current file is allowed to finish, and the GUI skips the rest of the batch. Declining the confirmation leaves the current operation and batch unchanged.
+`Cancel operation` always asks for confirmation. For GameCube/Wii conversions the active conversion checks the cancel request through Dolphin's progress callback, removes an incomplete output, and ends the batch. ISO to ZAR (and the extraction phase of ZAR to XISO) behaves the same way and also removes its partial output and temporary folder. For XDVDFS and CHDMAN operations the current backend call cannot be interrupted safely; after confirmation that current file is allowed to finish, and the GUI skips the rest of the batch. Declining the confirmation leaves the current operation and batch unchanged.
 
 ## Portable runtime files
 
