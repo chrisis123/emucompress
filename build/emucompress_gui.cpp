@@ -82,6 +82,7 @@ constexpr unsigned int DolphinNoteWiiGcz = 2;
 constexpr int ConversionKindIsoToZar = 6;
 constexpr int ConversionKindZarToXiso = 7;
 constexpr wchar_t ProgressClassName[] = L"EmucompressProgress";
+#define EMUCOMPRESS_VERSION L"0.72 beta"
 constexpr int ApplicationIconResourceId = 101;
 constexpr unsigned long long DualLayerDvdImageSize = 8547991552ULL;
 
@@ -2719,7 +2720,8 @@ LRESULT CALLBACK WindowProc(HWND window, UINT message, WPARAM wparam, LPARAM lpa
         if (LOWORD(wparam) == AboutMenuItemId)
         {
             MessageBoxW(window,
-                L"emucompress is a utility for converting and extracting disc images.\n\n"
+                L"emucompress " EMUCOMPRESS_VERSION L"\n"
+                L"A utility for converting and extracting disc images.\n\n"
                 L"It supports Xbox XDVDFS/XISO images, Xbox 360 ISO to ZAR (ZArchive) conversion, CHD creation and extraction, and "
                 L"GameCube/Wii ISO, RVZ, WIA and GCZ conversion. Drop a supported file onto the window "
                 L"and choose an operation. Output folders can be selected for each format.\n\n"
@@ -2992,7 +2994,7 @@ int WINAPI wWinMain(HINSTANCE instance, HINSTANCE, PWSTR, int show_command)
 
     const UINT system_dpi = GetDpiForSystem();
     main_window = CreateWindowExW(
-        0, WindowClassName, L"emucompress",
+        0, WindowClassName, L"emucompress " EMUCOMPRESS_VERSION,
         WS_OVERLAPPEDWINDOW | WS_CLIPCHILDREN,
         CW_USEDEFAULT, CW_USEDEFAULT,
         MulDiv(940, static_cast<int>(system_dpi), 96), MulDiv(720, static_cast<int>(system_dpi), 96),
