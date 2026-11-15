@@ -6,7 +6,7 @@
 
 - Xbox XDVDFS/XISO packing and extraction, implemented by the Rust XDVDFS library, plus Xbox 360 ISO to ZAR (ZArchive) conversion for Xenia.
 - CD/DVD CHD creation and extraction, provided by the MAME CHDMAN library.
-- GameCube/Wii ISO, RVZ, WIA and GCZ conversion, provided by Dolphin DiscIO.
+- GameCube/Wii ISO (or GCM), RVZ, WIA and GCZ conversion, provided by Dolphin DiscIO.
 
 The GUI starts each conversion in the background so the window remains responsive. Build dependencies are loaded from DLLs beside the executable; keep those runtime DLLs in the same folder when moving the portable application.
 
@@ -23,7 +23,7 @@ The three output-folder selections are independent and remain in effect until ch
 
 `README` in the window header opens this guide using the system's default Markdown or text handler. The Release build places `README.md` beside the executable for portable use. `About` in the header provides a short program overview. Hovering over any enabled button shows a tooltip explaining what it does; buttons that are disabled while a job is running do not show tooltips.
 
-The window uses a custom-drawn, DPI-aware layout (per-monitor scaling) and follows the system light/dark app setting. Each tool (Xbox, CD / DVD, GameCube / Wii) is a card showing its operations, its current output folder, and `Change...` / `Reset` buttons (`Reset` returns to writing beside the input). While a conversion runs, the operation, file-picker, and folder buttons are disabled and files dropped onto the window are ignored. Keyboard navigation with Tab, Space, and Enter is supported.
+The window uses a custom-drawn, DPI-aware layout (per-monitor scaling) and follows the system light/dark app setting. Each tool (CD / DVD, GameCube / Wii, Xbox) is a card, stacked in that order, showing its operations, its current output folder, and `Change...` / `Reset` buttons (`Reset` returns to writing beside the input). While a conversion runs, the operation, file-picker, and folder buttons are disabled and files dropped onto the window are ignored. Keyboard navigation with Tab, Space, and Enter is supported.
 
 ## Build
 
@@ -127,10 +127,10 @@ The CHDMAN row creates or extracts MAME CHD images. Output names use the input b
 
 The Dolphin DLL is produced at `source\dolphin\build-x64\Binaries\DolphinRVZ.dll`; the GUI project's post-build step stages it and its MSVC runtime dependencies beside `emucompress_gui.exe`. Dolphin's other linked dependencies are static. Keep all staged DLLs beside the executable when moving the portable application.
 
-- `ISO to RVZ` accepts a GameCube/Wii `.iso` and invokes Dolphin's native DiscIO conversion with RVZ, 128 KiB chunks, and Zstandard level 5. Scrubbing is disabled; the conversion retains unused/junk-sector data rather than replacing it with zeros.
+- `ISO to RVZ` accepts a GameCube/Wii `.iso` or `.gcm` and invokes Dolphin's native DiscIO conversion with RVZ, 128 KiB chunks, and Zstandard level 5. Scrubbing is disabled; the conversion retains unused/junk-sector data rather than replacing it with zeros.
 - `RVZ to ISO` accepts `.rvz` and converts it back to `.iso`. With input data retained during RVZ creation, converting the RVZ back is intended to reproduce the source image bytes.
-- `ISO to WIA` accepts a GameCube/Wii `.iso` and writes a `.wia` (LZMA2 level 5, 2 MiB chunks). WIA is Dolphin's older format; RVZ compresses better, so prefer RVZ unless you need WIA for compatibility with other tools. `WIA to ISO` accepts `.wia`.
-- `ISO to GCZ` accepts a GameCube/Wii `.iso` and writes a `.gcz` (zlib, 128 KiB blocks). `GCZ to ISO` accepts `.gcz`. GCZ saves little space on Wii discs because their data is encrypted; it is mainly useful for GameCube images.
+- `ISO to WIA` accepts a GameCube/Wii `.iso` or `.gcm` and writes a `.wia` (LZMA2 level 5, 2 MiB chunks). WIA is Dolphin's older format; RVZ compresses better, so prefer RVZ unless you need WIA for compatibility with other tools. `WIA to ISO` accepts `.wia`.
+- `ISO to GCZ` accepts a GameCube/Wii `.iso` or `.gcm` and writes a `.gcz` (zlib, 128 KiB blocks). `GCZ to ISO` accepts `.gcz`. GCZ saves little space on Wii discs because their data is encrypted; it is mainly useful for GameCube images.
 - Any Dolphin-readable container (`.rvz`, `.wia`, `.gcz`, ...) can be restored with the matching `... to ISO` button. WBFS and CISO inputs cannot be compressed to WIA/GCZ because they do not store the exact image size; convert them to ISO first.
 - **Reversibility.** RVZ, WIA and GCZ are designed to be lossless: converting back to ISO reproduces the original image bit for bit when it was made from an unmodified, complete disc dump. This is not guaranteed when the source was scrubbed/trimmed or is an NKit image, because that data is no longer present in the input and cannot be restored; the output then restores exactly what the source contained. The GUI asks for confirmation before ISO to WIA/GCZ and reports a note on completion when it detects an NKit source (or a Wii disc written to GCZ). Very old Dolphin versions (before 5.0-11893) may refuse some GCZ files. RVZ, WIA and GCZ round trips were verified byte-identical (SHA-256) on a GameCube image and on a dual-layer Wii image (WBFS to ISO, then ISO to each format and back). A WBFS file is a scrubbed container, so the ISO made from it contains zeros where the WBFS stored nothing; that ISO is what round-trips exactly.
 - The output is written beside the input by default; the GameCube / Wii card's `Change...` button can select another location. Existing target files are rejected for RVZ conversions rather than overwritten.

@@ -1444,6 +1444,11 @@ void HandleDrop(HDROP drop)
     DragFinish(drop);
 }
 
+bool IsGameCubeImageInput(const std::wstring& input)
+{
+    return EndsWith(input, L".iso") || EndsWith(input, L".gcm");
+}
+
 bool DispatchOperation(UINT_PTR operation_id, const std::wstring& input)
 {
     switch (operation_id)
@@ -1508,9 +1513,9 @@ bool DispatchOperation(UINT_PTR operation_id, const std::wstring& input)
         StartChdmanConversion(input, L"extractcd", L"iso", L"Extracting CD to ISO...", true);
         break;
     case IsoToRvzButtonId:
-        if (!EndsWith(input, L".iso"))
+        if (!IsGameCubeImageInput(input))
         {
-            SetStatus(L"ISO to RVZ requires a GameCube/Wii .iso input.");
+            SetStatus(L"ISO to RVZ requires a GameCube/Wii .iso or .gcm input.");
             return false;
         }
         StartDolphinConversion(input, DolphinFormatRvz);
@@ -1524,9 +1529,9 @@ bool DispatchOperation(UINT_PTR operation_id, const std::wstring& input)
         StartDolphinConversion(input, DolphinFormatIso);
         break;
     case IsoToWiaButtonId:
-        if (!EndsWith(input, L".iso"))
+        if (!IsGameCubeImageInput(input))
         {
-            SetStatus(L"ISO to WIA requires a GameCube/Wii .iso input.");
+            SetStatus(L"ISO to WIA requires a GameCube/Wii .iso or .gcm input.");
             return false;
         }
         StartDolphinConversion(input, DolphinFormatWia);
@@ -1540,9 +1545,9 @@ bool DispatchOperation(UINT_PTR operation_id, const std::wstring& input)
         StartDolphinConversion(input, DolphinFormatIso);
         break;
     case IsoToGczButtonId:
-        if (!EndsWith(input, L".iso"))
+        if (!IsGameCubeImageInput(input))
         {
-            SetStatus(L"ISO to GCZ requires a GameCube/Wii .iso input.");
+            SetStatus(L"ISO to GCZ requires a GameCube/Wii .iso or .gcm input.");
             return false;
         }
         StartDolphinConversion(input, DolphinFormatGcz);
@@ -1980,7 +1985,7 @@ void SelectionText(std::wstring& title, std::wstring& detail)
     if (files.empty())
     {
         title = L"Drop a disc image here";
-        detail = L"ISO, XISO, CUE/GDI, CHD, ZAR, RVZ, WIA and GCZ are supported. Drop one file, or choose several for a batch.";
+        detail = L"ISO, GCM, XISO, CUE/GDI, CHD, ZAR, RVZ, WIA and GCZ are supported. Drop one file, or choose several for a batch.";
     }
     else if (files.size() == 1)
     {
@@ -2202,15 +2207,15 @@ const wchar_t* TooltipFor(UINT_PTR id)
     case ExtractCdToIsoButtonId:
         return L"Extract a CD .chd file to a single .iso image. The temporary .cue sheet is removed afterwards.";
     case IsoToRvzButtonId:
-        return L"Compress a GameCube or Wii .iso into a space-saving .rvz file. This can be cancelled while running.";
+        return L"Compress a GameCube or Wii .iso or .gcm image into a space-saving .rvz file. This can be cancelled while running.";
     case RvzToIsoButtonId:
         return L"Restore a GameCube or Wii .rvz file to a full .iso image.";
     case IsoToWiaButtonId:
-        return L"Compress a GameCube or Wii .iso into a .wia file (older Dolphin format; RVZ compresses better). Designed to be lossless, but not guaranteed for scrubbed or NKit images. You are asked to confirm first.";
+        return L"Compress a GameCube or Wii .iso or .gcm image into a .wia file (older Dolphin format; RVZ compresses better). Designed to be lossless, but not guaranteed for scrubbed or NKit images. You are asked to confirm first.";
     case WiaToIsoButtonId:
         return L"Restore a GameCube or Wii .wia file to a full .iso image.";
     case IsoToGczButtonId:
-        return L"Compress a GameCube or Wii .iso into a .gcz file. Works well for GameCube; saves little on Wii discs. Designed to be lossless, but not guaranteed for scrubbed or NKit images. You are asked to confirm first.";
+        return L"Compress a GameCube or Wii .iso or .gcm image into a .gcz file. Works well for GameCube; saves little on Wii discs. Designed to be lossless, but not guaranteed for scrubbed or NKit images. You are asked to confirm first.";
     case GczToIsoButtonId:
         return L"Restore a GameCube or Wii .gcz file to a full .iso image.";
     case PickXdvdfsFolderButtonId:
@@ -2561,20 +2566,20 @@ void CreateUi(HWND window)
         card.folder = folder;
         cards.push_back(std::move(card));
     };
-    add_card(L"Xbox", L"XDVDFS \u00B7 ISO, XISO and ZAR",
-        {{PackButtonId, L"ISO to XISO"}, {XisoToIsoButtonId, L"XISO to ISO"}, {UnpackButtonId, L"XISO to folder"},
-            {IsoToZarButtonId, L"ISO to ZAR"}, {ZarToXisoButtonId, L"ZAR to XISO"}},
-        PickXdvdfsFolderButtonId, ResetXdvdfsFolderButtonId, &xdvdfs_output_directory);
     add_card(L"CD / DVD", L"CHDMAN \u00B7 CHD archives",
         {{CreateCdButtonId, L"Create CD CHD"}, {CreateDvdButtonId, L"Create DVD CHD"},
             {ExtractCdButtonId, L"Extract CD"}, {ExtractDvdButtonId, L"Extract DVD"},
             {ExtractCdToIsoButtonId, L"Extract CD to ISO"}},
         PickChdmanFolderButtonId, ResetChdmanFolderButtonId, &chdman_output_directory);
-    add_card(L"GameCube / Wii", L"Dolphin \u00B7 ISO, RVZ, WIA and GCZ",
+    add_card(L"GameCube / Wii", L"Dolphin \u00B7 ISO, GCM, RVZ, WIA and GCZ",
         {{IsoToRvzButtonId, L"ISO to RVZ"}, {RvzToIsoButtonId, L"RVZ to ISO"},
             {IsoToWiaButtonId, L"ISO to WIA"}, {WiaToIsoButtonId, L"WIA to ISO"},
             {IsoToGczButtonId, L"ISO to GCZ"}, {GczToIsoButtonId, L"GCZ to ISO"}},
         PickDolphinFolderButtonId, ResetDolphinFolderButtonId, &dolphin_output_directory);
+    add_card(L"Xbox", L"XDVDFS \u00B7 ISO, XISO and ZAR",
+        {{PackButtonId, L"ISO to XISO"}, {XisoToIsoButtonId, L"XISO to ISO"}, {UnpackButtonId, L"XISO to folder"},
+            {IsoToZarButtonId, L"ISO to ZAR"}, {ZarToXisoButtonId, L"ZAR to XISO"}},
+        PickXdvdfsFolderButtonId, ResetXdvdfsFolderButtonId, &xdvdfs_output_directory);
 
     CreateUiButton(window, BrowseFilesButtonId, L"Choose files...", ButtonKind::Primary, true);
     for (const Card& card : cards)
